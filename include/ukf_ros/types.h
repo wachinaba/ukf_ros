@@ -24,10 +24,10 @@ SOFTWARE.
 #define TYPES_H
 
 #include <Eigen/Core>
-#include "UKF/Config.h"
+#include "ukf_ros/config.h"
 
-namespace UKF {
-
+namespace UKF
+{
 template <int Rows, int Columns>
 using Matrix = Eigen::Matrix<real_t, Rows, Columns>;
 
@@ -45,14 +45,15 @@ using VectorDynamic = Eigen::Matrix<real_t, Eigen::Dynamic, 1, 0, Length, 1>;
 
 using Quaternion = Eigen::Quaternion<real_t>;
 
-class FieldVector : public Vector<3> {
+class FieldVector : public Vector<3>
+{
 public:
-	/* Inherit Eigen::Matrix constructors and assignment operators. */
-    using Base = Vector<3>;
-    using Base::Base;
-    using Base::operator=;
+  /* Inherit Eigen::Matrix constructors and assignment operators. */
+  using Base = Vector<3>;
+  using Base::Base;
+  using Base::operator=;
 };
 
-}
+}  // namespace UKF
 
 #endif

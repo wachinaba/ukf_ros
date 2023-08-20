@@ -23,43 +23,49 @@ SOFTWARE.
 #ifndef INTEGRATOR_H_
 #define INTEGRATOR_H_
 
-#include "UKF/Config.h"
+#include "ukf_ros/config.h"
 
-namespace UKF {
-
+namespace UKF
+{
 /* Fourth-order integrator. */
-class IntegratorRK4 {
+class IntegratorRK4
+{
 public:
-    template <typename S, typename... U>
-    static S integrate(real_t delta, const S& state, const U&... input) {
-        S a = state.derivative(input...);
-        S b = S(state + real_t(0.5) * delta * a).derivative(input...);
-        S c = S(state + real_t(0.5) * delta * b).derivative(input...);
-        S d = S(state + delta * c).derivative(input...);
-        return state + (delta / real_t(6.0)) * (a + (b * real_t(2.0)) + (c * real_t(2.0)) + d);
-    }
+  template <typename S, typename... U>
+  static S integrate(real_t delta, const S& state, const U&... input)
+  {
+    S a = state.derivative(input...);
+    S b = S(state + real_t(0.5) * delta * a).derivative(input...);
+    S c = S(state + real_t(0.5) * delta * b).derivative(input...);
+    S d = S(state + delta * c).derivative(input...);
+    return state + (delta / real_t(6.0)) * (a + (b * real_t(2.0)) + (c * real_t(2.0)) + d);
+  }
 };
 
 /* Second-order integrator. */
-class IntegratorHeun {
+class IntegratorHeun
+{
 public:
-    template <typename S, typename... U>
-    static S integrate(real_t delta, const S& state, const U&... input) {
-        S initial = state.derivative(input...);
-        S predictor = state + delta * initial;
-        return state + (delta * real_t(0.5)) * (initial + predictor.derivative(input...));
-    }
+  template <typename S, typename... U>
+  static S integrate(real_t delta, const S& state, const U&... input)
+  {
+    S initial = state.derivative(input...);
+    S predictor = state + delta * initial;
+    return state + (delta * real_t(0.5)) * (initial + predictor.derivative(input...));
+  }
 };
 
 /* First-order integrator. */
-class IntegratorEuler {
-    public:
-    template <typename S, typename... U>
-    static S integrate(real_t delta, const S& state, const U&... input) {
-        return state + delta * state.derivative(input...);
-    }
+class IntegratorEuler
+{
+public:
+  template <typename S, typename... U>
+  static S integrate(real_t delta, const S& state, const U&... input)
+  {
+    return state + delta * state.derivative(input...);
+  }
 };
 
-}
+}  // namespace UKF
 
 #endif
